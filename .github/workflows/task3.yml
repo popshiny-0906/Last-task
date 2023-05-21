@@ -1,35 +1,65 @@
-steps:
-  - uses: actions/checkout@v3
+name: GitHub Actions - Creative Workflow
 
-  - name: Generate a unique project name
-    id: generate_project_name
-    run: |
-      echo "Generating project name..."
-      echo "::set-output name=project_name::MyCreativeProject-$RANDOM"
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
 
-  - name: Set up environment
-    run: |
-      echo "Setting up environment..."
-      # Perform environment setup tasks here
+jobs:
+  creative_build:
+    runs-on: ubuntu-latest
 
-  - name: Build project
-    run: |
-      echo "Building the project..."
-      # Add your build commands here
+    steps:
+      - uses: actions/checkout@v3
 
-  - name: Run tests
-    run: |
-      echo "Running tests..."
-      # Add your test commands here
+      - name: Generate a unique project name
+        id: generate_project_name
+        run: |
+          echo "Generating project name..."
+          echo "::set-output name=project_name::MyCreativeProject-$RANDOM"
 
-  - name: Deploy project
-    run: |
-      echo "Deploying the project..."
-      # Add your deployment commands here
+      - name: Set up environment
+        run: |
+          echo "Setting up environment..."
+          # Perform environment setup tasks here
 
-  - name: Notify completion
-    run: |
-      echo "Workflow completed successfully!"
+      - name: Build project
+        run: |
+          echo "Building the project..."
+          # Add your build commands here
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          # Add your test commands here
+
+      - name: Deploy project
+        run: |
+          echo "Deploying the project..."
+          # Add your deployment commands here
+
+      - name: Notify completion
+        run: |
+          echo "Workflow completed successfully!"
+
+      - name: Save artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: project-artifacts
+          path: ${{ github.workspace }}/path/to/artifacts
+
+      - name: Send notification
+        uses: some-notification-action@v1
+        with:
+          message: "Workflow completed for ${{ steps.generate_project_name.outputs.project_name }}"
+
+      - name: Clean up environment
+        run: |
+          echo "Cleaning up environment..."
+          # Perform cleanup tasks here
+
 
   - name: Save artifacts
     uses: actions/upload-artifact@v2
