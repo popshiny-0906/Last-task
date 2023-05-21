@@ -53,26 +53,9 @@ jobs:
       - name: Send notification
         uses: some-notification-action@v1
         with:
-          message: "Workflow completed for ${{ steps.generate_project_name.outputs.project_name }}"
+          message: "Workflow completed for ${{ needs.creative_build.outputs.generate_project_name }}"
 
       - name: Clean up environment
         run: |
           echo "Cleaning up environment..."
           # Perform cleanup tasks here
-
-
-  - name: Save artifacts
-    uses: actions/upload-artifact@v2
-    with:
-      name: project-artifacts
-      path: ${{ github.workspace }}/path/to/artifacts
-
-  - name: Send notification
-    uses: some-notification-action@v1
-    with:
-      message: "Workflow completed for ${{ steps.generate_project_name.outputs.project_name }}"
-
-  - name: Clean up environment
-    run: |
-      echo "Cleaning up environment..."
-      # Perform cleanup tasks here
